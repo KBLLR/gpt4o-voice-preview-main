@@ -1,6 +1,7 @@
 import openai
 from openai import OpenAI
 import base64
+from dotenv import load_dotenv
 import os
 import time
 import datetime
@@ -21,14 +22,14 @@ YELLOW = '\033[93m'
 NEON_GREEN = '\033[92m'
 RESET_COLOR = '\033[0m'
 
-openai.api_key = 'x'
+openai.api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=openai.api_key)
 
 def gpt4o_chat(user_query):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a expert at write relevant notes from a text"},
+            {"role": "system", "content": "You are an expert taking relevant notes from a text"},
             {"role": "user", "content": user_query}
             
         ],
@@ -144,7 +145,7 @@ def record_audio(file_path, silence_threshold=1000, speech_threshold=1000, chunk
     wf.close()
 
 def main():
-    folder_path = "C:/Users/kris_/Python/gpt4o/images/"
+    folder_path = "/gpt4o/images/"
     os.makedirs(folder_path, exist_ok=True)
 
     print(f"{CYAN}Notes Assistant is now observing...{RESET_COLOR}")

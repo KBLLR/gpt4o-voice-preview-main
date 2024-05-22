@@ -1,10 +1,3 @@
-import openai
-from openai import OpenAI
-import base64
-import os
-import time
-import datetime
-import pyautogui
 from pathlib import Path
 import tempfile
 import pyaudio
@@ -13,6 +6,13 @@ from pydub.playback import play
 import wave
 from faster_whisper import WhisperModel
 import audioop
+import openai
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # ANSI escape codes for colors
 PINK = '\033[95m'
@@ -21,7 +21,8 @@ YELLOW = '\033[93m'
 NEON_GREEN = '\033[92m'
 RESET_COLOR = '\033[0m'
 
-openai.api_key = 'x'
+# Access the API key from environment variables
+openai.api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=openai.api_key)
 
 def gpt4o_chat(user_query):
@@ -144,7 +145,7 @@ def record_audio(file_path, silence_threshold=1000, speech_threshold=1000, chunk
     wf.close()
 
 def main():
-    folder_path = "PATH/images/"
+    folder_path = "images"
     os.makedirs(folder_path, exist_ok=True)
 
     print(f"{CYAN}Continuous Code Assistant is now observing...{RESET_COLOR}")
